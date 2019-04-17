@@ -1,7 +1,10 @@
 <?php
 namespace app\index\controller;
 
-class Index
+use think\Controller;
+
+
+class Index extends Controller
 {
     public function index()
     {
@@ -12,4 +15,31 @@ class Index
     {
         return 'hello,' . $name;
     }
+
+    public function test(){
+        $array = ["张三","成龙","张小龙","王五","陈真"];
+        $new_array = array();
+
+        foreach ($array as $key=>$value)  
+        {  
+            $new_array[$key] = iconv('UTF-8', 'GBK', $value);  
+        }  
+        asort($new_array);  
+        foreach ($new_array as $key=>$value)  
+        {  
+            $array[$key] = iconv('GBK', 'UTF-8', $value);  
+            $a = iconv('GBK', 'UTF-8', $value);
+            echo $key."<br/>";
+        }
+
+        dump($array);
+        dump($new_array);
+    }
+
+    public function chatPage()
+    {
+        echo 1;
+        return $this->fetch();
+    }
+
 }

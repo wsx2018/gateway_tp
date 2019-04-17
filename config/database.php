@@ -51,7 +51,7 @@ return [
     // 时间字段取出后的默认时间格式
     'datetime_format' => 'Y-m-d H:i:s',
     // 是否需要进行SQL性能分析
-    'sql_explain'     => false,
+    'sql_explain'     => true,
     // Builder类
     'builder'         => '',
     // Query类
@@ -60,4 +60,27 @@ return [
     'break_reconnect' => false,
     // 断线标识字符串
     'break_match_str' => [],
+    //数据库配置1
+    'db_config1' => [
+        // 数据库类型
+        'type'        => 'mysql',
+        // 数据库连接DSN配置
+        'dsn'         => '',
+        // 服务器地址
+        'hostname'    => 'localhost',
+        // 数据库名
+        'database'    => 'shuj',
+        // 数据库用户名
+        'username'    => 'root',
+        // 数据库密码
+        'password'    => '123',
+        // 数据库连接端口
+        'hostport'    => '',
+        // 数据库连接参数
+        'params'      => [],
+        // 数据库编码默认采用utf8
+        'charset'     => 'utf8',
+        // 数据库表前缀
+        'prefix'      => 'toa_',
+    ],
 ];
