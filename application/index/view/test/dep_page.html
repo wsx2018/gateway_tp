@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="__JS__/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div id='div1'>
+        <select id="union">
+                {foreach $result as $key=>$vo } 
+                    <option value="{$vo.id}">{$vo.name}</option>
+                    {$vo.id}:{$vo.name}
+                {/foreach}
+        </select>
+    </div>
+    <div id='div2'>
+
+    </div>
+    <div id="div3">
+
+    </div>
+
+
+    <script>
+        window.onload = function (){
+            arr = [1,2,3,4,5];
+            var arrCopy = arr;
+            for(i=0;i<arr.length;i++){
+                // arrCopy.splice(i,1);
+                // console.log(arr[i]);
+                arr.splice(i--,1);
+            }
+            // console.log(arr);
+            // var i = arr.length;
+            // while(i--){
+            //     // console.log(arr[i]);
+            //     arr.splice(i,1);
+            // }
+        }
+
+        $(function(){
+            $('#union').change(function(e){
+                var unionid = $(this).val();
+                jQuery.ajax({
+                    type:'get',
+                    data:{
+                        'unionid':unionid
+                    },
+                    url:'{:url("depAjax")}',
+                    success:function(data){
+                        // console.log(data);
+                        
+                        obj = JSON.parse(data);
+
+                        html = '顶级部门:<select name="dep_p" class="dep_p">';
+                        for(var i in obj){
+                            html += '<option value="'+obj[i].id+'">'+obj[i].name;
+                            html += '</option>';
+                        }
+
+                        $('#div2').html(html);
+                    }
+                })
+            })
+
+            $('#div2').on('change','select.dep_p',function(e){
+                var depid = $(this).val();
+                var This = this;
+                jQuery.ajax({
+                    type:'get',
+                    data:{
+                        'depid':depid
+                    },
+                    url:'{:url("depAjax2")}',
+                    success:function(data){
+                        console.log(data);
+                        var obj = JSON.parse(data);
+                        var html = func(obj,depid,'');
+                        $('#div3').html(html);
+
+                    }
+                })
+            })
+
+        })
+
+        function func(result,pid,html){
+            html += '<select name="dep_p" class="dep_p">';
+            console.log(result.length);
+            for(i=0;i<result.length;i++){
+                
+                console.log(pid,result[i]);
+                if(result[i].father == pid){
+                    html += '<option value="'+result[i].id+'">'+result[i].name;
+                    html += '</option>';
+                    result.splice(i--,1);
+                    pid = result[i].father;
+                }
+            }
+            html += '</select>';
+            
+            if(result.length>0){
+                console.log(result);
+                // func(result,pid,html)
+            }else{
+                return html;
+            }
+        }
+    </script>
+</body>
+</html>
